@@ -1,3 +1,4 @@
+@import "~antd/dist/antd.css";
 .App {
   text-align: center;
 }
@@ -35,4 +36,16 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+.editIconColor {
+  color: #b517ff;
+}
+
+.deleteIconColor {
+  color: #ff4949;
+}
+.crossline {
+  text-decoration: line-through;
+  text-decoration-thickness: 1px;
 }
