@@ -7,6 +7,12 @@ import useBearStore, {
   handleDeleteTodo,
   updateTask,
 } from "../../Services/Api/TodoApi";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import {
+  todoDeletedtoast,
+  todoUpdatetoast,
+} from "../../Services/toastNotification/toast";
 
 const EditandDelete = (props) => {
   const id = props.item.id;
@@ -38,6 +44,15 @@ const EditandDelete = (props) => {
     setIsModalOpen(true);
     handleUpdateTask(id);
   };
+  const disablePastDate = () => {
+    let today, dd, mm, yyyy;
+    today = new Date();
+    dd = today.getDate();
+    mm = today.getMonth() + 1;
+    yyyy = today.getFullYear();
+    return yyyy + "-" + mm + "-" + dd;
+  };
+
   const handleOk = (e) => {
     e.preventDefault();
     //console.log("submitted");
@@ -51,6 +66,7 @@ const EditandDelete = (props) => {
       hasStartTime,
       hasEndTime
     );
+    todoUpdatetoast();
   };
   const handleCancel = () => {
     setIsModalOpen(false);
@@ -66,6 +82,7 @@ const EditandDelete = (props) => {
       onOk() {
         //console.log("OK");
         handleDeleteTodo(id);
+        todoDeletedtoast();
       },
       onCancel() {
         //console.log("Cancel");
@@ -105,6 +122,7 @@ const EditandDelete = (props) => {
           <hr className="mb-8"></hr>
           <form onSubmit={handleOk}>
             <input
+              required
               className="shadow appearance-none border rounded w-full mb-3 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               type="text"
               placeholder="Write Task Title"
@@ -124,15 +142,18 @@ const EditandDelete = (props) => {
               <div className="col-span-1">
                 <label>Start Date</label>
                 <input
+                  required
                   className="shadow appearance-none border rounded w-full mb-3 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                   type="date"
                   value={hasStartDate}
                   onChange={(e) => setHasStartDate(e.target.value)}
+                  min={disablePastDate()}
                 />
               </div>
               <div className="col-span-1">
                 <label>Start Time</label>
                 <input
+                  required
                   className="shadow appearance-none border rounded w-full mb-3 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                   type="time"
                   value={hasStartTime}
@@ -144,15 +165,18 @@ const EditandDelete = (props) => {
               <div className="col-span-1">
                 <label>End Date</label>
                 <input
+                  required
                   className="shadow appearance-none border rounded w-full mb-3 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                   type="date"
                   value={hasEndDate}
                   onChange={(e) => setHasEndDate(e.target.value)}
+                  min={disablePastDate()}
                 />
               </div>
               <div className="col-span-1">
                 <label>End Time</label>
                 <input
+                  required
                   className="shadow appearance-none border rounded w-full mb-3 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                   type="time"
                   value={hasEndTime}
@@ -175,6 +199,7 @@ const EditandDelete = (props) => {
         onClick={showDeleteConfirm}
         alt="Delete Icon"
       />
+      <ToastContainer />
     </div>
   );
 };

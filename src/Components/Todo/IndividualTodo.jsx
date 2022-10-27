@@ -2,18 +2,26 @@ import React from "react";
 import useBearStore, { handleCompleteTask } from "../../Services/Api/TodoApi";
 import AddNewTodoBtn from "../Button/AddNewTodoBtn";
 import EditandDelete from "../Icons/EditandDelete";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import moment from "moment";
+import { todoConpletedtoast } from "../../Services/toastNotification/toast";
 
 const IndividualTodo = () => {
   const { todos } = useBearStore();
+
+  let date = new Date();
+  console.log(date);
+
   return (
     <div>
       <AddNewTodoBtn />
-      <div className="mt-[24px] mb-[12px]">
+      <div className="mt-6 mb-6">
         {Array.from(todos).map((item) => {
           return (
             <div key={item.id} className="mb-[12px]">
               <div className=" flex gap-4 space-x-20 p-[13px] border rounded-[10px]">
-                <div className=" w-3/4 flex flex-col items-start">
+                <div className=" w-3/4 flex flex-col items-start text-left">
                   <h1
                     className={
                       item.is_completed ? " crossline text-lg" : "text-lg"
@@ -23,8 +31,10 @@ const IndividualTodo = () => {
                   </h1>
                   <p>{item.note}</p>
                   <span>
-                    Start Date: {item.start_date} at {item.start_time} -{" "}
-                    {item.end_date} at {item.end_time}
+                    Start Date: {moment(item.start_date).format("DD-MM-YYYY")}{" "}
+                    at {moment(item.start_time, "hh:mm:ss").format("hh:mm A")} -{" "}
+                    {moment(item.end_date).format("DD-MM-YYYY")} at{" "}
+                    {moment(item.end_time, "hh:mm:ss").format("hh:mm A")}
                   </span>
                 </div>
 
@@ -35,7 +45,10 @@ const IndividualTodo = () => {
                       <input type="hidden"></input>
                     ) : (
                       <input
-                        onClick={() => handleCompleteTask(item.id)}
+                        onClick={() => {
+                          handleCompleteTask(item.id);
+                          todoConpletedtoast();
+                        }}
                         className="w-5 h-5 "
                         type="checkbox"
                         name=""
@@ -51,6 +64,7 @@ const IndividualTodo = () => {
             </div>
           );
         })}
+        <ToastContainer />
       </div>
     </div>
   );

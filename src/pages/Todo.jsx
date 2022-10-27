@@ -3,7 +3,7 @@ import IndividualTodo from "../Components/Todo/IndividualTodo";
 
 const Todo = () => {
   return (
-    <div className="container mx-auto mt-10">
+    <div className="container mx-auto my-10">
       <IndividualTodo />
     </div>
   );

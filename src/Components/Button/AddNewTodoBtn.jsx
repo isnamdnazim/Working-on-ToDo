@@ -1,6 +1,9 @@
 import { Modal } from "antd";
 import React, { useState } from "react";
 import { handleAddNewTodo } from "../../Services/Api/TodoApi";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { todoAddedtoast } from "../../Services/toastNotification/toast";
 
 const AddNewTodoBtn = () => {
   //Properties for Adding in a single Task
@@ -21,12 +24,23 @@ const AddNewTodoBtn = () => {
     form.reset();
   };
 
+  // disable the past date
+  const disablePastDate = () => {
+    let today, dd, mm, yyyy;
+    today = new Date();
+    dd = today.getDate();
+    mm = today.getMonth() + 1;
+    yyyy = today.getFullYear();
+    return yyyy + "-" + mm + "-" + dd;
+  };
+
   const handleOk = (e) => {
     e.preventDefault();
     console.log("submitted");
     handleAddNewTodo(title, note, startDate, endDate, startTime, endTime);
     setIsModalOpen(false);
     resetField();
+    todoAddedtoast();
   };
   const handleCancel = () => {
     setIsModalOpen(false);
@@ -79,6 +93,7 @@ const AddNewTodoBtn = () => {
                   onChange={(e) => setStartDate(e.target.value)}
                   className="shadow appearance-none border rounded w-full mb-3 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                   type="date"
+                  min={disablePastDate()}
                 />
               </div>
               <div className="col-span-1">
@@ -99,6 +114,7 @@ const AddNewTodoBtn = () => {
                   onChange={(e) => setEndDate(e.target.value)}
                   className="shadow appearance-none border rounded w-full mb-3 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                   type="date"
+                  min={disablePastDate()}
                 />
               </div>
               <div className="col-span-1">
@@ -119,6 +135,7 @@ const AddNewTodoBtn = () => {
           </form>
         </div>
       </Modal>
+      <ToastContainer />
     </div>
   );
 };
