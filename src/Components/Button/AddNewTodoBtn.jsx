@@ -15,10 +15,18 @@ const AddNewTodoBtn = () => {
   const showModal = () => {
     setIsModalOpen(true);
   };
-  const handleOk = () => {
+
+  const resetField = () => {
+    const form = document.getElementById("form");
+    form.reset();
+  };
+
+  const handleOk = (e) => {
+    e.preventDefault();
     console.log("submitted");
     handleAddNewTodo(title, note, startDate, endDate, startTime, endTime);
     setIsModalOpen(false);
+    resetField();
   };
   const handleCancel = () => {
     setIsModalOpen(false);
@@ -33,15 +41,23 @@ const AddNewTodoBtn = () => {
         Add ToDo
       </button>
       <Modal
-        title="Add ToDo"
+        //title="Add ToDo"
         open={isModalOpen}
-        onOk={handleOk}
+        //onOk={handleOk}
         okText="Submit"
         onCancel={handleCancel}
+        footer={null}
       >
         <div>
-          <form>
+          <div>
+            <h2 className="font-[600] text-[24px] flex justify-center">
+              Add ToDo
+            </h2>
+          </div>
+          <hr className="mb-8"></hr>
+          <form id="form" onSubmit={handleOk}>
             <input
+              required
               onChange={(e) => setTitle(e.target.value)}
               className="shadow appearance-none border rounded w-full mb-3 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               type="text"
@@ -59,6 +75,7 @@ const AddNewTodoBtn = () => {
               <div className="col-span-1">
                 <label>Start Date</label>
                 <input
+                  required
                   onChange={(e) => setStartDate(e.target.value)}
                   className="shadow appearance-none border rounded w-full mb-3 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                   type="date"
@@ -67,6 +84,7 @@ const AddNewTodoBtn = () => {
               <div className="col-span-1">
                 <label>Start Time</label>
                 <input
+                  required
                   onChange={(e) => setStartTime(e.target.value)}
                   className="shadow appearance-none border rounded w-full mb-3 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                   type="time"
@@ -77,6 +95,7 @@ const AddNewTodoBtn = () => {
               <div className="col-span-1">
                 <label>End Date</label>
                 <input
+                  required
                   onChange={(e) => setEndDate(e.target.value)}
                   className="shadow appearance-none border rounded w-full mb-3 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                   type="date"
@@ -85,11 +104,17 @@ const AddNewTodoBtn = () => {
               <div className="col-span-1">
                 <label>End Time</label>
                 <input
+                  required
                   onChange={(e) => setEndTime(e.target.value)}
                   className="shadow appearance-none border rounded w-full mb-3 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                   type="time"
                 />
               </div>
+            </div>
+            <div className="mt-8 flex justify-center">
+              <button className="w-[211px] px-6 py-3 h-12 rounded-[10px] bg-[#007BEC] text-white text-[16px] font-[500]">
+                Add ToDo
+              </button>
             </div>
           </form>
         </div>

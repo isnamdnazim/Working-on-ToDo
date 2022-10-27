@@ -38,7 +38,8 @@ const EditandDelete = (props) => {
     setIsModalOpen(true);
     handleUpdateTask(id);
   };
-  const handleOk = () => {
+  const handleOk = (e) => {
+    e.preventDefault();
     //console.log("submitted");
     setIsModalOpen(false);
     updateTask(
@@ -88,14 +89,21 @@ const EditandDelete = (props) => {
         alt="Edit Icon"
       />
       <Modal
-        title="Update ToDo"
+        //title="Update ToDo"
         open={isModalOpen}
-        onOk={handleOk}
+        //onOk={handleOk}
         okText="Update"
         onCancel={handleCancel}
+        footer={null}
       >
         <div>
           <div>
+            <h2 className="font-[600] text-[24px] flex justify-center">
+              Edit ToDo
+            </h2>
+          </div>
+          <hr className="mb-8"></hr>
+          <form onSubmit={handleOk}>
             <input
               className="shadow appearance-none border rounded w-full mb-3 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               type="text"
@@ -111,47 +119,53 @@ const EditandDelete = (props) => {
               value={hasNote}
               onChange={(e) => setHasNote(e.target.value)}
             />
-          </div>
-          <div className="grid grid-cols-2 gap-x-3">
-            <div className="col-span-1">
-              <label>Start Date</label>
-              <input
-                className="shadow appearance-none border rounded w-full mb-3 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                type="date"
-                value={hasStartDate}
-                onChange={(e) => setHasStartDate(e.target.value)}
-              />
+
+            <div className="grid grid-cols-2 gap-x-3">
+              <div className="col-span-1">
+                <label>Start Date</label>
+                <input
+                  className="shadow appearance-none border rounded w-full mb-3 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                  type="date"
+                  value={hasStartDate}
+                  onChange={(e) => setHasStartDate(e.target.value)}
+                />
+              </div>
+              <div className="col-span-1">
+                <label>Start Time</label>
+                <input
+                  className="shadow appearance-none border rounded w-full mb-3 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                  type="time"
+                  value={hasStartTime}
+                  onChange={(e) => setHasStartTime(e.target.value)}
+                />
+              </div>
             </div>
-            <div className="col-span-1">
-              <label>Start Time</label>
-              <input
-                className="shadow appearance-none border rounded w-full mb-3 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                type="time"
-                value={hasStartTime}
-                onChange={(e) => setHasStartTime(e.target.value)}
-              />
+            <div className="grid grid-cols-2 gap-x-3">
+              <div className="col-span-1">
+                <label>End Date</label>
+                <input
+                  className="shadow appearance-none border rounded w-full mb-3 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                  type="date"
+                  value={hasEndDate}
+                  onChange={(e) => setHasEndDate(e.target.value)}
+                />
+              </div>
+              <div className="col-span-1">
+                <label>End Time</label>
+                <input
+                  className="shadow appearance-none border rounded w-full mb-3 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                  type="time"
+                  value={hasEndTime}
+                  onChange={(e) => setHasEndTime(e.target.value)}
+                />
+              </div>
             </div>
-          </div>
-          <div className="grid grid-cols-2 gap-x-3">
-            <div className="col-span-1">
-              <label>End Date</label>
-              <input
-                className="shadow appearance-none border rounded w-full mb-3 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                type="date"
-                value={hasEndDate}
-                onChange={(e) => setHasEndDate(e.target.value)}
-              />
+            <div className="mt-8  flex justify-center">
+              <button className="w-[211px] px-6 py-3 h-12 rounded-[10px] bg-[#007BEC] text-white text-[16px] font-[500]">
+                Save Changes
+              </button>
             </div>
-            <div className="col-span-1">
-              <label>End Time</label>
-              <input
-                className="shadow appearance-none border rounded w-full mb-3 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                type="time"
-                value={hasEndTime}
-                onChange={(e) => setHasEndTime(e.target.value)}
-              />
-            </div>
-          </div>
+          </form>
         </div>
       </Modal>
       <img

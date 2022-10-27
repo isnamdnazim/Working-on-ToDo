@@ -9,7 +9,7 @@ const IndividualTodo = () => {
     <div>
       <AddNewTodoBtn />
       <div className="mt-[24px] mb-[12px]">
-        {todos.map((item) => {
+        {Array.from(todos).map((item) => {
           return (
             <div key={item.id} className="mb-[12px]">
               <div className=" flex gap-4 space-x-20 p-[13px] border rounded-[10px]">
