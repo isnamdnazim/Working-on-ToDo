@@ -1,12 +1,13 @@
 import React, { useState } from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTrashCan, faPenToSquare } from "@fortawesome/free-solid-svg-icons";
 import { ExclamationCircleOutlined } from "@ant-design/icons";
 import { Modal } from "antd";
 import editIcon from "../../icons/editIcon.png";
 import deleteIcon from "../../icons/deleteIcon.png";
+import useBearStore, { handleDeleteTodo } from "../../Services/Api/TodoApi";
 
-const EditandDelete = () => {
+const EditandDelete = (props) => {
+  const id = props.id;
+
   const { confirm } = Modal;
   const [isModalOpen, setIsModalOpen] = useState(false);
   const showModal = () => {
@@ -29,6 +30,7 @@ const EditandDelete = () => {
       cancelText: "No",
       onOk() {
         console.log("OK");
+        handleDeleteTodo(id);
       },
       onCancel() {
         console.log("Cancel");
@@ -74,12 +76,14 @@ const EditandDelete = () => {
           </div>
           <div className="grid grid-cols-2 gap-x-3">
             <div className="col-span-1">
+              <label>Start Date</label>
               <input
                 className="shadow appearance-none border rounded w-full mb-3 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                 type="date"
               />
             </div>
             <div className="col-span-1">
+              <label>Start Time</label>
               <input
                 className="shadow appearance-none border rounded w-full mb-3 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                 type="time"
@@ -88,12 +92,14 @@ const EditandDelete = () => {
           </div>
           <div className="grid grid-cols-2 gap-x-3">
             <div className="col-span-1">
+              <label>End Date</label>
               <input
                 className="shadow appearance-none border rounded w-full mb-3 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                 type="date"
               />
             </div>
             <div className="col-span-1">
+              <label>End Time</label>
               <input
                 className="shadow appearance-none border rounded w-full mb-3 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                 type="time"
