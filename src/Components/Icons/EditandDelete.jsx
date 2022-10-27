@@ -3,19 +3,53 @@ import { ExclamationCircleOutlined } from "@ant-design/icons";
 import { Modal } from "antd";
 import editIcon from "../../icons/editIcon.png";
 import deleteIcon from "../../icons/deleteIcon.png";
-import useBearStore, { handleDeleteTodo } from "../../Services/Api/TodoApi";
+import useBearStore, {
+  handleDeleteTodo,
+  updateTask,
+} from "../../Services/Api/TodoApi";
 
 const EditandDelete = (props) => {
-  const id = props.id;
+  const id = props.item.id;
+  const { todos } = useBearStore();
 
+  // getting the Properties for  update single Task
+  const [hasTitle, setHasTitle] = useState("");
+  const [hasNote, setHasNote] = useState();
+  const [hasStartDate, setHasStartDate] = useState();
+  const [hasEndDate, setHasEndDate] = useState();
+  const [hasStartTime, setHasStartTime] = useState();
+  const [hasEndTime, setHasEndTime] = useState();
+  //console.log(hasTitle);
+  //console.log(taskId);
+
+  const handleUpdateTask = (id) => {
+    let hasTask = todos.find((item) => item.id === id);
+    console.log(hasTask.title);
+    setHasTitle(hasTask.title);
+    setHasNote(hasTask.note);
+    setHasStartDate(hasTask.start_date);
+    setHasStartTime(hasTask.start_time);
+    setHasEndDate(hasTask.end_date);
+    setHasEndTime(hasTask.end_time);
+  };
   const { confirm } = Modal;
   const [isModalOpen, setIsModalOpen] = useState(false);
   const showModal = () => {
     setIsModalOpen(true);
+    handleUpdateTask(id);
   };
   const handleOk = () => {
-    console.log("submitted");
+    //console.log("submitted");
     setIsModalOpen(false);
+    updateTask(
+      id,
+      hasTitle,
+      hasNote,
+      hasStartDate,
+      hasEndDate,
+      hasStartTime,
+      hasEndTime
+    );
   };
   const handleCancel = () => {
     setIsModalOpen(false);
@@ -29,14 +63,14 @@ const EditandDelete = (props) => {
       okType: "danger",
       cancelText: "No",
       onOk() {
-        console.log("OK");
+        //console.log("OK");
         handleDeleteTodo(id);
       },
       onCancel() {
-        console.log("Cancel");
+        //console.log("Cancel");
       },
     });
-    console.log("working");
+    //console.log("working");
   };
   return (
     <div className="flex justify-around">
@@ -66,12 +100,16 @@ const EditandDelete = (props) => {
               className="shadow appearance-none border rounded w-full mb-3 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               type="text"
               placeholder="Write Task Title"
+              value={hasTitle}
+              onChange={(e) => setHasTitle(e.target.value)}
             />
 
             <textarea
               className="shadow appearance-none border rounded h-32 w-full mb-3 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               type="text"
               placeholder="Write Task Note"
+              value={hasNote}
+              onChange={(e) => setHasNote(e.target.value)}
             />
           </div>
           <div className="grid grid-cols-2 gap-x-3">
@@ -80,6 +118,8 @@ const EditandDelete = (props) => {
               <input
                 className="shadow appearance-none border rounded w-full mb-3 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                 type="date"
+                value={hasStartDate}
+                onChange={(e) => setHasStartDate(e.target.value)}
               />
             </div>
             <div className="col-span-1">
@@ -87,6 +127,8 @@ const EditandDelete = (props) => {
               <input
                 className="shadow appearance-none border rounded w-full mb-3 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                 type="time"
+                value={hasStartTime}
+                onChange={(e) => setHasStartTime(e.target.value)}
               />
             </div>
           </div>
@@ -96,6 +138,8 @@ const EditandDelete = (props) => {
               <input
                 className="shadow appearance-none border rounded w-full mb-3 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                 type="date"
+                value={hasEndDate}
+                onChange={(e) => setHasEndDate(e.target.value)}
               />
             </div>
             <div className="col-span-1">
@@ -103,17 +147,13 @@ const EditandDelete = (props) => {
               <input
                 className="shadow appearance-none border rounded w-full mb-3 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                 type="time"
+                value={hasEndTime}
+                onChange={(e) => setHasEndTime(e.target.value)}
               />
             </div>
           </div>
         </div>
       </Modal>
-      {/* <FontAwesomeIcon
-        className="deleteIconColor"
-        onClick={showDeleteConfirm}
-        cursor="pointer"
-        icon={faTrashCan}
-      /> */}
       <img
         className="cursor-pointer w-9 h-9 p2"
         src={deleteIcon}

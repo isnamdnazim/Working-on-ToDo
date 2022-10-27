@@ -1,6 +1,12 @@
 import axios from "axios";
 import create from "zustand";
-import { add_todo, base_url, delete_todo } from "../../app/const";
+import {
+  add_todo,
+  base_url,
+  complete_todo,
+  delete_todo,
+  update_todo,
+} from "../../app/const";
 
 const useBearStore = create((set, get) => ({
   todos: [],
@@ -35,7 +41,7 @@ export const handleDeleteTodo = (id) => {
 };
 
 //add a new task
-export const handleAddNewNote = (
+export const handleAddNewTodo = (
   title,
   note,
   startDate,
@@ -57,6 +63,43 @@ export const handleAddNewNote = (
     })
     .catch(function (error) {
       console.log(error);
+    });
+};
+
+// update todo
+export const updateTask = (
+  id,
+  title,
+  note,
+  startDate,
+  endDate,
+  startTime,
+  endTime
+) => {
+  axios
+    .post(update_todo, {
+      id: id,
+      title: title,
+      note: note,
+      start_date: startDate,
+      end_date: endDate,
+      start_time: startTime,
+      end_time: endTime,
+    })
+    .then((res) => {
+      setToDos(res?.data?.data);
+    });
+};
+
+// complete todo task
+export const handleCompleteTask = (id) => {
+  axios
+    .post(complete_todo, {
+      id: id,
+    })
+    .then((res) => {
+      setToDos(res?.data?.data);
+      console.log(res);
     });
 };
 

@@ -1,6 +1,6 @@
 import { Modal } from "antd";
 import React, { useState } from "react";
-import { handleAddNewNote } from "../../Services/Api/TodoApi";
+import { handleAddNewTodo } from "../../Services/Api/TodoApi";
 
 const AddNewTodoBtn = () => {
   //Properties for Adding in a single Task
@@ -17,7 +17,7 @@ const AddNewTodoBtn = () => {
   };
   const handleOk = () => {
     console.log("submitted");
-    handleAddNewNote(title, note, startDate, endDate, startTime, endTime);
+    handleAddNewTodo(title, note, startDate, endDate, startTime, endTime);
     setIsModalOpen(false);
   };
   const handleCancel = () => {
