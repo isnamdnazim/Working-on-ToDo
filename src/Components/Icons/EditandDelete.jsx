@@ -92,12 +92,6 @@ const EditandDelete = (props) => {
   };
   return (
     <div className="flex justify-around">
-      {/* <FontAwesomeIcon
-        className="editIconColor"
-        cursor="pointer"
-        onClick={showModal}
-        icon={faPenToSquare}
-      /> */}
       <img
         className="cursor-pointer w-9 h-9 p2 mr-4"
         src={editIcon}

@@ -13,6 +13,11 @@ const IndividualTodo = () => {
   let date = new Date();
   console.log(date);
 
+  let todayData = date.getDate();
+  let timeNow = date.getHours();
+  console.log(todayData);
+  console.log(timeNow);
+
   return (
     <div>
       <AddNewTodoBtn />
@@ -38,25 +43,25 @@ const IndividualTodo = () => {
                   </span>
                 </div>
 
-                <div className="flex items-center">
-                  <div className=" mr-4 p-2 border-[#007BEC] accent-[#007BEC]  items-center ">
+                <div className="flex justify end w-auto">
+                  <div className="p-2 flex border-[#007BEC] accent-[#007BEC] justify-end  items-center ">
                     {/* <Checkbox className="w-9 h-9 p4"></Checkbox> */}
-                    {item.is_completed ? (
-                      <input type="hidden"></input>
-                    ) : (
-                      <input
-                        onClick={() => {
-                          handleCompleteTask(item.id);
-                          todoConpletedtoast();
-                        }}
-                        className="w-5 h-5 "
-                        type="checkbox"
-                        name=""
-                        id=""
-                      />
-                    )}
-                  </div>
-                  <div className="col-span-8">
+                    <div className="mr-4">
+                      {item.is_completed ? (
+                        <input type="hidden" className="mr-4 w-3"></input>
+                      ) : (
+                        <input
+                          onClick={() => {
+                            handleCompleteTask(item.id);
+                            todoConpletedtoast();
+                          }}
+                          className="w-5 h-5 mr-4"
+                          type="checkbox"
+                          name=""
+                          id=""
+                        />
+                      )}
+                    </div>
                     <EditandDelete item={item} />
                   </div>
                 </div>
