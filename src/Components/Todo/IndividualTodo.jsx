@@ -23,7 +23,7 @@ const IndividualTodo = () => {
     <div className="">
       <AddNewTodoBtn />
       {load ? (
-        <div className="flex justify-center items-center">
+        <div className="flex justify-center items-center flex-col">
           <Dna
             visible={true}
             height="100"
@@ -32,6 +32,9 @@ const IndividualTodo = () => {
             wrapperStyle={{}}
             wrapperClass="dna-wrapper"
           />
+          <h1 className="text-lg text-[#007BEC]">
+            Wait, Task's are Loading.........
+          </h1>
         </div>
       ) : (
         <div className="mt-6 mb-6">
