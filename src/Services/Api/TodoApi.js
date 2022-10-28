@@ -11,15 +11,18 @@ import {
 const useBearStore = create((set, get) => ({
   todos: [],
   setToDos: (data) => set({ todos: data }),
+  load: [],
+  setLoad: () => set({ load: false }),
 }));
 
-const { setToDos } = useBearStore.getState();
+const { setToDos, setLoad } = useBearStore.getState();
 
 export const getAllTodo = async () => {
   try {
     const response = await axios.get(base_url);
     console.log(response?.data);
     const alltask = response?.data?.data;
+    setLoad(true);
     setToDos(alltask);
     return alltask;
   } catch (error) {
