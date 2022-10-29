@@ -49,3 +49,12 @@
   text-decoration: line-through;
   text-decoration-thickness: 1px;
 }
+
+.required label {
+  font-weight: bold;
+}
+.required label:after {
+  color: #e32;
+  content: " *";
+  display: inline;
+}

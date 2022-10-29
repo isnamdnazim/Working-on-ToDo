@@ -11,6 +11,14 @@ import { Dna } from "react-loader-spinner";
 const IndividualTodo = () => {
   const { todos, load } = useBearStore();
 
+  // const todo = () => {
+  //   Array.from(todos).map((item) => {
+  //     return setSingleTodo(item);
+  //   });
+  // };
+  // todo();
+  // console.log(singleTodo);
+
   let date = new Date();
   console.log(date);
 
