@@ -9,6 +9,14 @@ export const disablePastDate = () => {
   today = new Date();
   dd = today.getDate();
   mm = today.getMonth() + 1;
-  yyyy = today.getFullYear();
+  yyyy = today.getFullYear() + 1;
   return yyyy + "-" + mm + "-" + dd;
+  //return mm + "-" + dd + "-" + yyyy;
 };
+
+// export const disableTime = () =>{
+//   let time, hh, mm;
+//   time = new Date();
+//   hh =
+
+// }

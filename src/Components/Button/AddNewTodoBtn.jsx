@@ -32,8 +32,8 @@ const AddNewTodoBtn = () => {
   //     console.log("End time shoud not be same as start time");
   //   }
   // };
-  console.log(startDate);
-  console.log(startTime);
+  // console.log(startDate);
+  // console.log(startTime);
   // disablePastTime();
 
   const handleOk = (e) => {
@@ -92,7 +92,21 @@ const AddNewTodoBtn = () => {
                 <label className="required-field">Start Date</label>
                 <input
                   required
-                  onChange={(e) => setStartDate(e.target.value)}
+                  onChange={(e) => {
+                    // let date = new Date(e.target.value);
+                    // const day = date.getDate();
+                    // const month = date.getMonth();
+                    // const year = date.getFullYear();
+                    // const fulldate = day + "-" + month + "-" + year;
+                    // console.log(fulldate);
+                    // setStartDate(fulldate);
+
+                    //setStartDate(e.target.value);
+
+                    let edate = new Date(e.target.value);
+                    console.log(edate.toLocaleDateString());
+                    setStartDate(edate.toLocaleDateString());
+                  }}
                   className="shadow appearance-none border rounded w-full mb-3 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                   type="date"
                   min={disablePastDate()}
@@ -113,7 +127,13 @@ const AddNewTodoBtn = () => {
                 <label className="required-field">End Date</label>
                 <input
                   required
-                  onChange={(e) => setEndDate(e.target.value)}
+                  onChange={(e) => {
+                    let edate = new Date(e.target.value);
+                    console.log(edate.toLocaleDateString());
+                    setEndDate(edate.toLocaleDateString());
+
+                    //setEndDate(e.target.value);
+                  }}
                   className="shadow appearance-none border rounded w-full mb-3 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                   type="date"
                   min={startDate}
@@ -123,7 +143,12 @@ const AddNewTodoBtn = () => {
                 <label className="required-field">End Time</label>
                 <input
                   required
-                  onChange={(e) => setEndTime(e.target.value)}
+                  onChange={(e) => {
+                    let etime = new Date(e.target.value);
+                    let time = etime.getTime();
+                    console.log(time);
+                    setEndTime(time);
+                  }}
                   className="shadow appearance-none border rounded w-full mb-3 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                   type="time"
                 />
