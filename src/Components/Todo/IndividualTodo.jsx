@@ -10,26 +10,23 @@ import { Dna } from "react-loader-spinner";
 
 const IndividualTodo = () => {
   const { todos, load } = useBearStore();
+  // const [singleTodo, setSingleTodo] = useState();
 
   // const todo = () => {
   //   Array.from(todos).map((item) => {
   //     return setSingleTodo(item);
   //   });
   // };
-  // todo();
+  // useEffect(() => {
+  //   todo();
+  // });
   // console.log(singleTodo);
-
-  let date = new Date();
-  console.log(date);
-
-  let todayData = date.getDate();
-  let timeNow = date.getHours();
-  console.log(todayData);
-  console.log(timeNow);
+  // console.log(todos);
 
   return (
     <div className="">
       <AddNewTodoBtn />
+      {}
       {load ? (
         <div className="flex justify-center items-center flex-col">
           <Dna
@@ -60,9 +57,10 @@ const IndividualTodo = () => {
                     </h1>
                     <p>{item.note}</p>
                     <span>
-                      Start Date: {moment(item.start_date).format("DD-MM-YYYY")}{" "}
-                      at {moment(item.start_time, "hh:mm:ss").format("hh:mm A")}{" "}
-                      - {moment(item.end_date).format("DD-MM-YYYY")} at{" "}
+                      Start Date:{" "}
+                      {moment(item.start_date).format("MMMM Do YYYY")} at{" "}
+                      {moment(item.start_time, "hh:mm:ss").format("hh:mm A")} -{" "}
+                      {moment(item.end_date).format("MMMM Do YYYY")} at{" "}
                       {moment(item.end_time, "hh:mm:ss").format("hh:mm A")}
                     </span>
                   </div>
@@ -72,14 +70,19 @@ const IndividualTodo = () => {
                       {/* <Checkbox className="w-9 h-9 p4"></Checkbox> */}
                       <div className="mr-4">
                         {item.is_completed ? (
-                          <input type="hidden" className="mr-4 w-3"></input>
+                          <input
+                            hidden
+                            type="checkbox"
+                            defaultChecked={true}
+                            className="mr-4 w-5 h-5"
+                          ></input>
                         ) : (
                           <input
                             onClick={() => {
                               handleCompleteTask(item.id);
                               todoConpletedtoast();
                             }}
-                            className="w-5 h-5 mr-4"
+                            className="w-5 h-5 mr-4 "
                             type="checkbox"
                             name=""
                             id=""

@@ -20,10 +20,9 @@ const { setToDos, setLoad } = useBearStore.getState();
 export const getAllTodo = async () => {
   try {
     const response = await axios.get(base_url);
-    console.log(response?.data);
     const alltask = response?.data?.data;
-    setLoad(true);
     setToDos(alltask);
+    setLoad(true);
     return alltask;
   } catch (error) {
     console.error(error);

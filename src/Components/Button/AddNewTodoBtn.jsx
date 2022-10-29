@@ -4,15 +4,16 @@ import { handleAddNewTodo } from "../../Services/Api/TodoApi";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { todoAddedtoast } from "../../Services/toastNotification/toast";
+import { disablePastDate } from "../../app/const";
 
 const AddNewTodoBtn = () => {
   //Properties for Adding in a single Task
-  const [title, setTitle] = useState("");
-  const [note, setNote] = useState("");
-  const [startDate, setStartDate] = useState("");
-  const [endDate, setEndDate] = useState("");
-  const [startTime, setStartTime] = useState("");
-  const [endTime, setEndTime] = useState("");
+  const [title, setTitle] = useState();
+  const [note, setNote] = useState();
+  const [startDate, setStartDate] = useState();
+  const [endDate, setEndDate] = useState();
+  const [startTime, setStartTime] = useState();
+  const [endTime, setEndTime] = useState();
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const showModal = () => {
@@ -24,15 +25,16 @@ const AddNewTodoBtn = () => {
     form.reset();
   };
 
-  // disable the past date
-  const disablePastDate = () => {
-    let today, dd, mm, yyyy;
-    today = new Date();
-    dd = today.getDate();
-    mm = today.getMonth() + 1;
-    yyyy = today.getFullYear();
-    return yyyy + "-" + mm + "-" + dd;
-  };
+  //disable the past time
+  // const disablePastTime = () => {
+  //   let hour = new Date(startTime).getTime();
+  //   if (endTime === startTime) {
+  //     console.log("End time shoud not be same as start time");
+  //   }
+  // };
+  console.log(startDate);
+  console.log(startTime);
+  // disablePastTime();
 
   const handleOk = (e) => {
     e.preventDefault();
@@ -75,19 +77,19 @@ const AddNewTodoBtn = () => {
               onChange={(e) => setTitle(e.target.value)}
               className="shadow appearance-none border rounded w-full mb-3 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               type="text"
-              placeholder="Write Task Title"
+              placeholder="Write Task Title *"
             />
 
             <textarea
               onChange={(e) => setNote(e.target.value)}
               className="shadow appearance-none border rounded h-32 w-full mb-3 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               type="text"
-              placeholder="Write Task Note"
+              placeholder="Write Task Note *"
             />
 
             <div className="grid grid-cols-2 gap-x-3">
               <div className="col-span-1">
-                <label>Start Date</label>
+                <label className="required-field">Start Date</label>
                 <input
                   required
                   onChange={(e) => setStartDate(e.target.value)}
@@ -97,7 +99,7 @@ const AddNewTodoBtn = () => {
                 />
               </div>
               <div className="col-span-1">
-                <label>Start Time</label>
+                <label className="required-field">Start Time</label>
                 <input
                   required
                   onChange={(e) => setStartTime(e.target.value)}
@@ -108,7 +110,7 @@ const AddNewTodoBtn = () => {
             </div>
             <div className="grid grid-cols-2 gap-x-3">
               <div className="col-span-1">
-                <label>End Date</label>
+                <label className="required-field">End Date</label>
                 <input
                   required
                   onChange={(e) => setEndDate(e.target.value)}
@@ -118,7 +120,7 @@ const AddNewTodoBtn = () => {
                 />
               </div>
               <div className="col-span-1">
-                <label>End Time</label>
+                <label className="required-field">End Time</label>
                 <input
                   required
                   onChange={(e) => setEndTime(e.target.value)}

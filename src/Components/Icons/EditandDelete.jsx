@@ -13,13 +13,16 @@ import {
   todoDeletedtoast,
   todoUpdatetoast,
 } from "../../Services/toastNotification/toast";
+import { disablePastDate } from "../../app/const";
 
 const EditandDelete = (props) => {
   const id = props.item.id;
+  // const item = props.item;
+  // console.log(item);
   const { todos } = useBearStore();
 
   // getting the Properties for  update single Task
-  const [hasTitle, setHasTitle] = useState("");
+  const [hasTitle, setHasTitle] = useState();
   const [hasNote, setHasNote] = useState();
   const [hasStartDate, setHasStartDate] = useState();
   const [hasEndDate, setHasEndDate] = useState();
@@ -30,7 +33,7 @@ const EditandDelete = (props) => {
 
   const handleUpdateTask = (id) => {
     let hasTask = todos.find((item) => item.id === id);
-    console.log(hasTask.title);
+    // console.log(hasTask.title);
     setHasTitle(hasTask.title);
     setHasNote(hasTask.note);
     setHasStartDate(hasTask.start_date);
@@ -43,14 +46,6 @@ const EditandDelete = (props) => {
   const showModal = () => {
     setIsModalOpen(true);
     handleUpdateTask(id);
-  };
-  const disablePastDate = () => {
-    let today, dd, mm, yyyy;
-    today = new Date();
-    dd = today.getDate();
-    mm = today.getMonth() + 1;
-    yyyy = today.getFullYear();
-    return yyyy + "-" + mm + "-" + dd;
   };
 
   const handleOk = (e) => {
@@ -119,7 +114,7 @@ const EditandDelete = (props) => {
               required
               className="shadow appearance-none border rounded w-full mb-3 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               type="text"
-              placeholder="Write Task Title"
+              placeholder="Write Task Title *"
               value={hasTitle}
               onChange={(e) => setHasTitle(e.target.value)}
             />
@@ -127,25 +122,29 @@ const EditandDelete = (props) => {
             <textarea
               className="shadow appearance-none border rounded h-32 w-full mb-3 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               type="text"
-              placeholder="Write Task Note"
+              placeholder="Write Task Note *"
               value={hasNote}
               onChange={(e) => setHasNote(e.target.value)}
             />
 
             <div className="grid grid-cols-2 gap-x-3">
               <div className="col-span-1">
-                <label>Start Date</label>
+                <label className="required-field">Start Date</label>
                 <input
                   required
                   className="shadow appearance-none border rounded w-full mb-3 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                   type="date"
                   value={hasStartDate}
-                  onChange={(e) => setHasStartDate(e.target.value)}
+                  onChange={(e) => {
+                    setHasStartDate(e.target.value);
+                    setHasEndDate("");
+                    setHasEndTime("");
+                  }}
                   min={disablePastDate()}
                 />
               </div>
               <div className="col-span-1">
-                <label>Start Time</label>
+                <label className="required-field">Start Time</label>
                 <input
                   required
                   className="shadow appearance-none border rounded w-full mb-3 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
@@ -157,18 +156,18 @@ const EditandDelete = (props) => {
             </div>
             <div className="grid grid-cols-2 gap-x-3">
               <div className="col-span-1">
-                <label>End Date</label>
+                <label className="required-field">End Date</label>
                 <input
                   required
                   className="shadow appearance-none border rounded w-full mb-3 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                   type="date"
                   value={hasEndDate}
                   onChange={(e) => setHasEndDate(e.target.value)}
-                  min={disablePastDate()}
+                  min={hasStartDate}
                 />
               </div>
               <div className="col-span-1">
-                <label>End Time</label>
+                <label className="required-field">End Time</label>
                 <input
                   required
                   className="shadow appearance-none border rounded w-full mb-3 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"

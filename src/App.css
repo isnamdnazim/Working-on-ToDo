@@ -58,3 +58,8 @@
   content: " *";
   display: inline;
 }
+
+.required-field::after {
+  content: " *";
+  color: red;
+}
