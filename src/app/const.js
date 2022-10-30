@@ -9,7 +9,7 @@ export const disablePastDate = () => {
   today = new Date();
   dd = today.getDate();
   mm = today.getMonth() + 1;
-  yyyy = today.getFullYear() + 1;
+  yyyy = today.getFullYear();
   return yyyy + "-" + mm + "-" + dd;
   //return mm + "-" + dd + "-" + yyyy;
 };
