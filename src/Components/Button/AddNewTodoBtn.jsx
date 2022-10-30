@@ -144,13 +144,16 @@ const AddNewTodoBtn = () => {
                 <input
                   required
                   onChange={(e) => {
-                    let etime = new Date(e.target.value);
-                    let time = etime.getTime();
-                    console.log(time);
-                    setEndTime(time);
+                    // let etime = new Date(e.target.value);
+                    // let time = etime.getTime();
+                    // console.log(time);
+                    // setEndTime(time);
+                    setEndTime(e.target.value);
+                    console.log(endTime);
                   }}
                   className="shadow appearance-none border rounded w-full mb-3 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                   type="time"
+                  pattern="[0-9]{2}:[0-9]{2}"
                 />
               </div>
             </div>
