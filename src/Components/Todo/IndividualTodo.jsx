@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import useBearStore, { handleCompleteTask } from "../../Services/Api/TodoApi";
 import AddNewTodoBtn from "../Button/AddNewTodoBtn";
 import EditandDelete from "../Icons/EditandDelete";
@@ -10,47 +10,56 @@ import { Dna } from "react-loader-spinner";
 
 const IndividualTodo = () => {
   const { todos, load } = useBearStore();
+
+  // todos.filter((item) => {
+  //   if (item.start_time >= new Date()) {
+  //     console.log(item.title);
+  //   }
+  //   return "task started";
+  // });
+
   // const [singleTodo, setSingleTodo] = useState();
 
-  // const todo = () => {
-  //   Array.from(todos).map((item) => {
-  //     return setSingleTodo(item);
-  //   });
+  // let todo = todos.map((tdo) => tdo);
+  // console.log(todo);
+
+  // let { start_date, start_time, end_date, end_time } = singleTodo;
+  // console.log(start_date, start_time);
+
+  // const taskStartEnd = () => {
+  //   var start = new Date(start_date + " " + start_time);
+  //   var end = new Date(end_date + " " + end_time);
+  //   if (start >= new Date()) {
+  //     console.log(singleTodo.title);
+  //   }
   // };
-  // useEffect(() => {
-  //   todo();
-  // });
-  // console.log(singleTodo);
-  // console.log(todos);
+  // taskStartEnd();
 
   return (
     <div className="">
       <AddNewTodoBtn />
-      {}
       {load ? (
-        <div className="flex justify-center items-center flex-col">
+        <div className="flex justify-center items-center">
           <Dna
             visible={true}
-            height="100"
-            width="100"
+            height="80vh"
+            width="10vw"
             ariaLabel="dna-loading"
             wrapperStyle={{}}
             wrapperClass="dna-wrapper"
           />
-          <h1 className="text-lg text-[#007BEC]">
-            Wait, Task's are Loading.........
-          </h1>
         </div>
       ) : (
         <div className="mt-6 mb-6">
           {Array.from(todos).map((item) => {
             return (
               <div key={item.id} className="mb-[12px]">
+                <input type="hidden"></input>
                 <div className=" flex gap-4 space-x-20 p-[13px] border rounded-[10px]">
                   <div className=" w-3/4 flex flex-col items-start text-left">
                     <h1
                       className={
-                        item.is_completed ? " crossline text-lg" : "text-lg"
+                        item.is_completed ? "crossline text-lg" : "text-lg"
                       }
                     >
                       {item.title}

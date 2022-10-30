@@ -76,10 +76,10 @@ const AddNewTodoBtn = () => {
   const timeChange = (value) => {
     var start = new Date(startDate + " " + startTime);
     var end = new Date(endDate + " " + endTime);
-    if (end < start) {
+    if (end <= start) {
       setEndTime("");
       setEndDate("");
-      errorToast("End Date Time Never Less Than Start Date");
+      errorToast("End Date Time Never Less Than Start Date and Time");
       return;
     } else {
       setEndTime(value);
@@ -138,12 +138,13 @@ const AddNewTodoBtn = () => {
                     // const fulldate = day + "-" + month + "-" + year;
                     // console.log(fulldate);
                     // setStartDate(fulldate);
+                    setStartDate(e.target.value);
 
                     //setStartDate(e.target.value);
 
-                    let edate = new Date(e.target.value);
-                    console.log(edate.toLocaleDateString());
-                    setStartDate(edate.toLocaleDateString());
+                    // let edate = new Date(e.target.value);
+                    // console.log(edate.toLocaleDateString());
+                    // setStartDate(edate.toLocaleDateString());
                   }}
                   className="shadow appearance-none border rounded w-full mb-3 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                   type="date"
@@ -191,7 +192,6 @@ const AddNewTodoBtn = () => {
                   }}
                   className="shadow appearance-none border rounded w-full mb-3 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                   type="time"
-                  pattern="[0-9]{2}:[0-9]{2}"
                 />
               </div>
             </div>
