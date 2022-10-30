@@ -19,34 +19,37 @@ const IndividualTodo = () => {
   const { id, SetId } = useState();
 
   const taskStartEnd = () => {
+    //console.log("af");
     todos.forEach((element) => {
       var start = new Date(element.start_date + " " + element.start_time);
       var end = new Date(element.end_date + " " + element.end_time);
+      //console.log(start + " " + end);
 
       //console.log(start + "" + end);
-      if (start <= new Date() && element.is_completed === false) {
+      if (start <= new Date() && element.is_completed == false) {
         console.log(element.title);
       }
-      if (start <= new Date() && element.is_completed === false) {
+      if (start <= new Date() && element.is_completed == false) {
         const title = `You need to start the task ${element.title}`;
-        //todostarttoast(title);
-        console.log(title);
+        todostarttoast(title);
+        //console.log(title);
       }
-      if (end < new Date() && element.is_completed === false) {
-        SetId(element.id);
+      if (end < new Date() && element.is_completed == false) {
         const title = `Your Task is Completed ${element.title}`;
-        console.log(title);
+        //console.log(title);
         //todoendtoast(title);
         //console.log(title);
       }
+      setTimeout(() => 9000);
     });
   };
 
-  // useEffect(() => {
-  //   taskStartEnd();
-  // }, []);
+  useEffect(() => {
+    taskStartEnd();
+    console.log("Na Na Na");
+  }, []);
 
-  taskStartEnd();
+  // taskStartEnd();
 
   return (
     <div className="">
