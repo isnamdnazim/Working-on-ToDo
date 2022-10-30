@@ -5,35 +5,48 @@ import EditandDelete from "../Icons/EditandDelete";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import moment from "moment";
-import { todoConpletedtoast } from "../../Services/toastNotification/toast";
+import {
+  errorToast,
+  todoConpletedtoast,
+  todoendtoast,
+  todostart,
+  todostarttoast,
+} from "../../Services/toastNotification/toast";
 import { Dna } from "react-loader-spinner";
 
 const IndividualTodo = () => {
   const { todos, load } = useBearStore();
+  const { id, SetId } = useState();
 
-  // todos.filter((item) => {
-  //   if (item.start_time >= new Date()) {
-  //     console.log(item.title);
-  //   }
-  //   return "task started";
-  // });
+  const taskStartEnd = () => {
+    todos.forEach((element) => {
+      var start = new Date(element.start_date + " " + element.start_time);
+      var end = new Date(element.end_date + " " + element.end_time);
 
-  // const [singleTodo, setSingleTodo] = useState();
+      //console.log(start + "" + end);
+      if (start <= new Date() && element.is_completed === false) {
+        console.log(element.title);
+      }
+      if (start <= new Date() && element.is_completed === false) {
+        const title = `You need to start the task ${element.title}`;
+        //todostarttoast(title);
+        console.log(title);
+      }
+      if (end < new Date() && element.is_completed === false) {
+        SetId(element.id);
+        const title = `Your Task is Completed ${element.title}`;
+        console.log(title);
+        //todoendtoast(title);
+        //console.log(title);
+      }
+    });
+  };
 
-  // let todo = todos.map((tdo) => tdo);
-  // console.log(todo);
+  // useEffect(() => {
+  //   taskStartEnd();
+  // }, []);
 
-  // let { start_date, start_time, end_date, end_time } = singleTodo;
-  // console.log(start_date, start_time);
-
-  // const taskStartEnd = () => {
-  //   var start = new Date(start_date + " " + start_time);
-  //   var end = new Date(end_date + " " + end_time);
-  //   if (start >= new Date()) {
-  //     console.log(singleTodo.title);
-  //   }
-  // };
-  // taskStartEnd();
+  taskStartEnd();
 
   return (
     <div className="">
@@ -54,7 +67,7 @@ const IndividualTodo = () => {
           {Array.from(todos).map((item) => {
             return (
               <div key={item.id} className="mb-[12px]">
-                <input type="hidden"></input>
+                <input type="hidden" value={item.id}></input>
                 <div className=" flex gap-4 space-x-20 p-[13px] border rounded-[10px]">
                   <div className=" w-3/4 flex flex-col items-start text-left">
                     <h1
