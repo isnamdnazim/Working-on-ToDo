@@ -7,53 +7,94 @@ import "react-toastify/dist/ReactToastify.css";
 import moment from "moment";
 import {
   errorToast,
+  successToast,
   todoConpletedtoast,
   todoendtoast,
   todostart,
   todostarttoast,
+  warningToast,
 } from "../../Services/toastNotification/toast";
 import { Dna } from "react-loader-spinner";
 
 const IndividualTodo = () => {
   const { todos, load } = useBearStore();
+  const { completeTodo } = useBearStore();
   const { id, SetId } = useState();
 
-  const taskStartEnd = () => {
-    //console.log("af");
-    todos.forEach((element) => {
-      var start = new Date(element.start_date + " " + element.start_time);
-      var end = new Date(element.end_date + " " + element.end_time);
-      //console.log(start + " " + end);
-
-      //console.log(start + "" + end);
-      if (start <= new Date() && !element.is_completed) {
-        console.log(element.title);
+  const checkTodo = async () => {
+    const completed = todos.filter((item) => {
+      return item?.is_completed != 1;
+    });
+    const data = completed?.map((item) => {
+      var start = new Date(item?.start_date + " " + item?.start_time);
+      return {
+        title: item?.title,
+        time: start,
+      };
+    });
+    data?.forEach((item) => {
+      if (item?.time < new Date()) {
+        warningToast(`It's time to start ${item?.title}`);
       }
-      if (start <= new Date() && element.is_completed == false) {
-        const title = `You need to start the task ${element.title}`;
-        todostarttoast(title);
-        //console.log(title);
-      }
-      if (end < new Date() && element.is_completed) {
-        const title = `Your Task is Completed ${element.title}`;
-        console.log(title);
-        //todoendtoast(title);
-        //console.log(title);
-      }
-      setTimeout(() => 9000);
     });
   };
 
-  const thisistest = () => {
-    console.log("this is test");
+  const timeOver = async () => {
+    const checkTime = todos?.map((item) => {
+      var end = new Date(item?.end_date + " " + item?.end_time);
+      return {
+        id: item?.id,
+        time: end,
+      };
+    });
+
+    var test = [];
+    console.log("test", test);
+    await checkTime?.forEach((item) => {
+      if (item?.time < new Date()) {
+        test.push(item?.id);
+      }
+    });
+
+    if (test.length > 0) {
+      for (let i = 0; i <= test.length; i++) {
+        console.log("i", test[i]);
+        if (test[i] != undefined) {
+          //  handleCompleteTask(test[i]);
+        }
+      }
+    }
   };
 
-  useEffect(() => {
-    taskStartEnd();
-  }, []);
+  // const taskStartEnd = () => {
+  //   //console.log("af");
+  //   todos.forEach((element) => {
+  //     var start = new Date(element.start_date + " " + element.start_time);
+  //     var end = new Date(element.end_date + " " + element.end_time);
+  //     //console.log(start + " " + end);
 
-  // thisistest();
-  // taskStartEnd();
+  //     //console.log(start + "" + end);
+  //     if (start <= new Date() && !element.is_completed) {
+  //       console.log(element.title);
+  //     }
+  //     if (start <= new Date() && element.is_completed == false) {
+  //       const title = `You need to start the task ${element.title}`;
+  //       todostarttoast(title);
+  //       //console.log(title);
+  //     }
+  //     if (end < new Date() && element.is_completed) {
+  //       const title = `Your Task is Completed ${element.title}`;
+  //       console.log(title);
+  //       //todoendtoast(title);
+  //       //console.log(title);
+  //     }
+  //
+  //   });
+  // };
+  useEffect(() => {
+    checkTodo();
+    timeOver();
+  }, [checkTodo]);
 
   return (
     <div className="">
