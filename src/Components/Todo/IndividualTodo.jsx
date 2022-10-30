@@ -26,7 +26,7 @@ const IndividualTodo = () => {
       //console.log(start + " " + end);
 
       //console.log(start + "" + end);
-      if (start <= new Date() && element.is_completed == false) {
+      if (start <= new Date() && !element.is_completed) {
         console.log(element.title);
       }
       if (start <= new Date() && element.is_completed == false) {
@@ -34,9 +34,9 @@ const IndividualTodo = () => {
         todostarttoast(title);
         //console.log(title);
       }
-      if (end < new Date() && element.is_completed == false) {
+      if (end < new Date() && element.is_completed) {
         const title = `Your Task is Completed ${element.title}`;
-        //console.log(title);
+        console.log(title);
         //todoendtoast(title);
         //console.log(title);
       }
@@ -44,11 +44,15 @@ const IndividualTodo = () => {
     });
   };
 
+  const thisistest = () => {
+    console.log("this is test");
+  };
+
   useEffect(() => {
     taskStartEnd();
-    console.log("Na Na Na");
   }, []);
 
+  // thisistest();
   // taskStartEnd();
 
   return (
