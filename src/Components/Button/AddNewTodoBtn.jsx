@@ -3,7 +3,10 @@ import React, { useState } from "react";
 import { handleAddNewTodo } from "../../Services/Api/TodoApi";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { todoAddedtoast } from "../../Services/toastNotification/toast";
+import {
+  errorToast,
+  todoAddedtoast,
+} from "../../Services/toastNotification/toast";
 import { disablePastDate } from "../../app/const";
 
 const AddNewTodoBtn = () => {
@@ -11,9 +14,9 @@ const AddNewTodoBtn = () => {
   const [title, setTitle] = useState();
   const [note, setNote] = useState();
   const [startDate, setStartDate] = useState();
-  const [endDate, setEndDate] = useState();
+  const [endDate, setEndDate] = useState("");
   const [startTime, setStartTime] = useState();
-  const [endTime, setEndTime] = useState();
+  const [endTime, setEndTime] = useState("");
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const showModal = () => {
@@ -24,6 +27,17 @@ const AddNewTodoBtn = () => {
     const form = document.getElementById("form");
     form.reset();
   };
+
+  // const checkDate = async () => {
+  //   var start = new Date(startDate + " " + startTime);
+  //   var end = new Date(endDate + " " + endTime);
+
+  //   if (end > start) {
+  //     alert("end bigger");
+  //   } else {
+  //     alert("end less");
+  //   }
+  // };
 
   //disable the past time
   // const disablePastTime = () => {
@@ -38,7 +52,6 @@ const AddNewTodoBtn = () => {
 
   const handleOk = (e) => {
     e.preventDefault();
-    console.log("submitted");
     handleAddNewTodo(title, note, startDate, endDate, startTime, endTime);
     setIsModalOpen(false);
     resetField();
@@ -46,6 +59,31 @@ const AddNewTodoBtn = () => {
   };
   const handleCancel = () => {
     setIsModalOpen(false);
+  };
+
+  const dateChange = (value) => {
+    var start = new Date(startDate);
+    var end = new Date(value);
+    if (end < start) {
+      setEndDate("");
+      setEndTime("");
+      errorToast("End Date Never Less Than Start Date");
+      return;
+    } else {
+      setEndDate(value);
+    }
+  };
+  const timeChange = (value) => {
+    var start = new Date(startDate + " " + startTime);
+    var end = new Date(endDate + " " + endTime);
+    if (end < start) {
+      setEndTime("");
+      setEndDate("");
+      errorToast("End Date Time Never Less Than Start Date");
+      return;
+    } else {
+      setEndTime(value);
+    }
   };
 
   return (
@@ -127,10 +165,9 @@ const AddNewTodoBtn = () => {
                 <label className="required-field">End Date</label>
                 <input
                   required
+                  value={endDate}
                   onChange={(e) => {
-                    let edate = new Date(e.target.value);
-                    console.log(edate.toLocaleDateString());
-                    setEndDate(edate.toLocaleDateString());
+                    dateChange(e.target.value);
 
                     //setEndDate(e.target.value);
                   }}
@@ -143,11 +180,14 @@ const AddNewTodoBtn = () => {
                 <label className="required-field">End Time</label>
                 <input
                   required
+                  value={endTime}
                   onChange={(e) => {
-                    let etime = new Date(e.target.value);
-                    let time = etime.getTime();
-                    console.log(time);
-                    setEndTime(time);
+                    timeChange(e.target.value);
+                    // setEndTime(e.target.value);
+                    // let etime = new Date(e.target.value);
+                    // let time = etime.getTime();
+                    // console.log(time);
+                    // setEndTime(time);
                   }}
                   className="shadow appearance-none border rounded w-full mb-3 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                   type="time"
