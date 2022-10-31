@@ -14,6 +14,7 @@ import {
   todoUpdatetoast,
 } from "../../Services/toastNotification/toast";
 import { disablePastDate } from "../../app/const";
+import { useEffect } from "react";
 
 const EditandDelete = (props) => {
   const id = props.item.id;
@@ -30,6 +31,15 @@ const EditandDelete = (props) => {
   const [hasEndTime, setHasEndTime] = useState();
   //console.log(hasTitle);
   //console.log(taskId);
+
+  // const completed = todos?.filter((item) => {
+  //   return item?.is_completed !== 1;
+  // });
+  // console.log("Completed: ", completed);
+
+  // useEffect(()=>{
+  //   const alltodo =  getAllTodo();
+  // },[]);
 
   const handleUpdateTask = (id) => {
     let hasTask = todos.find((item) => item.id === id);
