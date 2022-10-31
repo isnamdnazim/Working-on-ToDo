@@ -70,7 +70,7 @@ const EditandDelete = (props) => {
     confirm({
       title: "Are you sure delete this task?",
       icon: <ExclamationCircleOutlined />,
-      content: "Some descriptions",
+      content: "This Task Will Deleted Completely",
       okText: "Yes",
       okType: "danger",
       cancelText: "No",

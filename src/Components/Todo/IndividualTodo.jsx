@@ -1,5 +1,8 @@
 import React, { useEffect } from "react";
-import useBearStore, { handleCompleteTask } from "../../Services/Api/TodoApi";
+import useBearStore, {
+  getAllTodo,
+  handleCompleteTask,
+} from "../../Services/Api/TodoApi";
 import AddNewTodoBtn from "../Button/AddNewTodoBtn";
 import EditandDelete from "../Icons/EditandDelete";
 import { toast, ToastContainer } from "react-toastify";
@@ -14,18 +17,22 @@ import { Dna } from "react-loader-spinner";
 const IndividualTodo = () => {
   const { todos, load } = useBearStore();
 
-  const checkTodo = async () => {
+  const checkTodo = async (todos) => {
+    console.log("Todos", todos);
+    //console.log("Check Todo Function called");
     const completed = todos?.filter((item) => {
       return item?.is_completed !== 1;
     });
+    console.log("completed", completed);
     const data = completed?.map((item) => {
-      console.log(item);
+      //console.log(item);
       var start = new Date(item?.start_date + " " + item?.start_time);
       return {
         title: item?.title,
         time: start,
       };
     });
+    console.log("Data ", data);
     await data?.forEach((item) => {
       //console.log(item.title);
       //console.log(item.time);
@@ -36,7 +43,8 @@ const IndividualTodo = () => {
     });
   };
 
-  const timeOver = async () => {
+  const timeOver = async (todos) => {
+    //console.log("TimeOver Function is called");
     const checkTime = todos?.map((item) => {
       var end = new Date(item?.end_date + " " + item?.end_time);
       return {
@@ -44,6 +52,7 @@ const IndividualTodo = () => {
         time: end,
       };
     });
+    console.log("Check Time", checkTime);
 
     var test = [];
     //console.log("test", test);
@@ -64,10 +73,18 @@ const IndividualTodo = () => {
   };
 
   useEffect(() => {
-    checkTodo();
-    timeOver();
-    console.log("i Am useEffect");
-  }, [checkTodo]);
+    // checkTodo();
+    // timeOver();
+    // console.log("i Am useEffect");
+    handleInitialState();
+  }, []);
+
+  const handleInitialState = async () => {
+    const alltodo = await getAllTodo();
+    console.log("Todos: ", alltodo);
+    checkTodo(alltodo);
+    timeOver(alltodo);
+  };
 
   const clearWaitingQueue = () => {
     // Easy, right 😎
@@ -75,7 +92,7 @@ const IndividualTodo = () => {
   };
   clearWaitingQueue();
   return (
-    <div className="">
+    <div className="p-4">
       <AddNewTodoBtn />
       {load ? (
         <div className="flex justify-center items-center">

@@ -116,6 +116,7 @@ const AddNewTodoBtn = () => {
           </div>
           <hr className="mb-8"></hr>
           <form id="form" onSubmit={handleOk}>
+            <label className="required-field">Task Title</label>
             <input
               required
               onChange={(e) => setTitle(e.target.value)}
@@ -124,6 +125,7 @@ const AddNewTodoBtn = () => {
               placeholder="Write Task Title *"
             />
 
+            <label className="required-field">Task Note</label>
             <textarea
               onChange={(e) => setNote(e.target.value)}
               className="shadow appearance-none border rounded h-32 w-full mb-3 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"

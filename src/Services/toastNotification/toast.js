@@ -72,7 +72,7 @@ export const errorToast = (data) =>
 
 export const warningToast = (data) =>
   toast.warning(data, {
-    //toastId: "warning1",
+    toastId: "warning1",
     delay: 1000,
     position: "top-center",
     autoClose: 5000,
