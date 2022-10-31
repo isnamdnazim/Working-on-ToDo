@@ -1,7 +1,7 @@
 import { Modal } from "antd";
 import React, { useState } from "react";
 import { handleAddNewTodo } from "../../Services/Api/TodoApi";
-import { ToastContainer } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import {
   errorToast,
@@ -85,6 +85,12 @@ const AddNewTodoBtn = () => {
       setEndTime(value);
     }
   };
+
+  const clearWaitingQueue = () => {
+    // Easy, right 😎
+    toast.clearWaitingQueue();
+  };
+  clearWaitingQueue();
 
   return (
     <div className="flex justify-end">
@@ -203,7 +209,7 @@ const AddNewTodoBtn = () => {
           </form>
         </div>
       </Modal>
-      <ToastContainer />
+      <ToastContainer limit={1} />
     </div>
   );
 };

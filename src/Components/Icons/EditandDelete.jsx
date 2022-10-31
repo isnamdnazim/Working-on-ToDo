@@ -7,7 +7,7 @@ import useBearStore, {
   handleDeleteTodo,
   updateTask,
 } from "../../Services/Api/TodoApi";
-import { ToastContainer } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import {
   todoDeletedtoast,
@@ -85,6 +85,11 @@ const EditandDelete = (props) => {
     });
     //console.log("working");
   };
+  const clearWaitingQueue = () => {
+    // Easy, right 😎
+    toast.clearWaitingQueue();
+  };
+  clearWaitingQueue();
   return (
     <div className="flex justify-around">
       <img
@@ -192,7 +197,7 @@ const EditandDelete = (props) => {
         onClick={showDeleteConfirm}
         alt="Delete Icon"
       />
-      <ToastContainer />
+      <ToastContainer limit={1} />
     </div>
   );
 };

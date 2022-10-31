@@ -61,7 +61,9 @@ export const handleAddNewTodo = (
       end_time: endTime,
     })
     .then(function (response) {
-      setToDos(response?.data?.data);
+      if (response?.data.success) {
+        setToDos(response?.data?.data);
+      }
     })
     .catch(function (error) {
       console.log(error);
@@ -89,7 +91,9 @@ export const updateTask = (
       end_time: endTime,
     })
     .then((res) => {
-      setToDos(res?.data?.data);
+      if (res?.data.success) {
+        setToDos(res?.data?.data);
+      }
     });
 };
 
@@ -104,7 +108,7 @@ export const handleCompleteTask = (id) => {
       if (res?.data.success) {
         setToDos(res?.data?.data);
       }
-      console.log(res.data);
+      //console.log(res.data);
       return;
     });
 };

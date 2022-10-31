@@ -1,30 +1,25 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import useBearStore, { handleCompleteTask } from "../../Services/Api/TodoApi";
 import AddNewTodoBtn from "../Button/AddNewTodoBtn";
 import EditandDelete from "../Icons/EditandDelete";
-import { ToastContainer } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import moment from "moment";
 import {
-  errorToast,
-  successToast,
   todoConpletedtoast,
-  todoendtoast,
-  todostart,
-  todostarttoast,
   warningToast,
 } from "../../Services/toastNotification/toast";
 import { Dna } from "react-loader-spinner";
 
 const IndividualTodo = () => {
   const { todos, load } = useBearStore();
-  const { completeTodo } = useBearStore();
 
   const checkTodo = async () => {
-    const completed = todos.filter((item) => {
-      return item?.is_completed != 1;
+    const completed = todos?.filter((item) => {
+      return item?.is_completed !== 1;
     });
     const data = completed?.map((item) => {
+      console.log(item);
       var start = new Date(item?.start_date + " " + item?.start_time);
       return {
         title: item?.title,
@@ -32,7 +27,10 @@ const IndividualTodo = () => {
       };
     });
     await data?.forEach((item) => {
-      if (item?.time < new Date()) {
+      //console.log(item.title);
+      //console.log(item.time);
+      if (item?.time <= new Date()) {
+        console.log("title ", item?.title);
         warningToast(`It's time to start ${item?.title}`);
       }
     });
@@ -48,62 +46,34 @@ const IndividualTodo = () => {
     });
 
     var test = [];
-    console.log("test", test);
+    //console.log("test", test);
     await checkTime?.forEach((item) => {
       if (item?.time <= new Date()) {
         test.push(item?.id);
       }
     });
-    console.log("Test ", test);
+    //console.log("Test ", test);
     if (test.length > 0) {
       for (let i = 0; i < test.length; i++) {
-        console.log("i", test[i]);
-        if (test[i] != undefined) {
+        //console.log("i", test[i]);
+        if (test[i] !== null) {
           handleCompleteTask(test[i]);
         }
       }
     }
   };
 
-  const todoPromis = new Promise((resolve, reject) => {
-    setTimeout(() => {}, 3000);
-  });
-
-  const promiseHandle = async () => {
-    const date = await todoPromis;
-    return date;
-  };
-
-  // const taskStartEnd = () => {
-  //   //console.log("af");
-  //   todos.forEach((element) => {
-  //     var start = new Date(element.start_date + " " + element.start_time);
-  //     var end = new Date(element.end_date + " " + element.end_time);
-  //     //console.log(start + " " + end);
-
-  //     //console.log(start + "" + end);
-  //     if (start <= new Date() && !element.is_completed) {
-  //       console.log(element.title);
-  //     }
-  //     if (start <= new Date() && element.is_completed == false) {
-  //       const title = `You need to start the task ${element.title}`;
-  //       todostarttoast(title);
-  //       //console.log(title);
-  //     }
-  //     if (end < new Date() && element.is_completed) {
-  //       const title = `Your Task is Completed ${element.title}`;
-  //       console.log(title);
-  //       //todoendtoast(title);
-  //       //console.log(title);
-  //     }
-  //
-  //   });
-  // };
   useEffect(() => {
     checkTodo();
     timeOver();
+    console.log("i Am useEffect");
   }, [checkTodo]);
 
+  const clearWaitingQueue = () => {
+    // Easy, right 😎
+    toast.clearWaitingQueue();
+  };
+  clearWaitingQueue();
   return (
     <div className="">
       <AddNewTodoBtn />
@@ -143,7 +113,7 @@ const IndividualTodo = () => {
                     </span>
                   </div>
 
-                  <div className="flex justify end w-auto">
+                  <div className="flex flex-auto justify-end ">
                     <div className="p-2 flex border-[#007BEC] accent-[#007BEC] justify-end  items-center ">
                       {/* <Checkbox className="w-9 h-9 p4"></Checkbox> */}
                       <div className="mr-4">
@@ -174,7 +144,7 @@ const IndividualTodo = () => {
               </div>
             );
           })}
-          <ToastContainer />
+          <ToastContainer limit={1} />
         </div>
       )}
     </div>
