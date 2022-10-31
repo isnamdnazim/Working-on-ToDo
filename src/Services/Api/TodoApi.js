@@ -7,7 +7,6 @@ import {
   delete_todo,
   update_todo,
 } from "../../app/const";
-import { warningToast } from "../toastNotification/toast";
 
 const useBearStore = create((set, get) => ({
   todos: [],
@@ -21,11 +20,13 @@ const { setToDos, setLoad } = useBearStore.getState();
 export const getAllTodo = async () => {
   try {
     const response = await axios.get(base_url);
-    const alltask = response?.data?.data;
-    setToDos(alltask);
-    console.log("All Task: ", alltask);
-    setLoad(true);
-    return alltask;
+    if (response?.data?.success) {
+      const alltask = response?.data?.data;
+      setToDos(alltask);
+      console.log("All Task: ", alltask);
+      setLoad(true);
+      return alltask;
+    }
   } catch (error) {
     console.error(error);
   }
