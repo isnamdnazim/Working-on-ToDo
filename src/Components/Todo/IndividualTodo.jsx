@@ -19,7 +19,6 @@ import { Dna } from "react-loader-spinner";
 const IndividualTodo = () => {
   const { todos, load } = useBearStore();
   const { completeTodo } = useBearStore();
-  const { id, SetId } = useState();
 
   const checkTodo = async () => {
     const completed = todos.filter((item) => {
@@ -32,7 +31,7 @@ const IndividualTodo = () => {
         time: start,
       };
     });
-    data?.forEach((item) => {
+    await data?.forEach((item) => {
       if (item?.time < new Date()) {
         warningToast(`It's time to start ${item?.title}`);
       }
@@ -51,19 +50,28 @@ const IndividualTodo = () => {
     var test = [];
     console.log("test", test);
     await checkTime?.forEach((item) => {
-      if (item?.time < new Date()) {
+      if (item?.time <= new Date()) {
         test.push(item?.id);
       }
     });
-
+    console.log("Test ", test);
     if (test.length > 0) {
-      for (let i = 0; i <= test.length; i++) {
+      for (let i = 0; i < test.length; i++) {
         console.log("i", test[i]);
         if (test[i] != undefined) {
-          //  handleCompleteTask(test[i]);
+          handleCompleteTask(test[i]);
         }
       }
     }
+  };
+
+  const todoPromis = new Promise((resolve, reject) => {
+    setTimeout(() => {}, 3000);
+  });
+
+  const promiseHandle = async () => {
+    const date = await todoPromis;
+    return date;
   };
 
   // const taskStartEnd = () => {

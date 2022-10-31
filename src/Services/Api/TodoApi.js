@@ -100,8 +100,12 @@ export const handleCompleteTask = (id) => {
       id: id,
     })
     .then((res) => {
-      setToDos(res?.data?.data);
-      console.log(res);
+      //setToDos(res?.data?.data);
+      if (res?.data.success) {
+        setToDos(res?.data?.data);
+      }
+      console.log(res.data);
+      return;
     });
 };
 
