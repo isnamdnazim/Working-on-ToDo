@@ -7,25 +7,33 @@ import {
   delete_todo,
   update_todo,
 } from "../../app/const";
+import { warningToast } from "../toastNotification/toast";
 
 const useBearStore = create((set, get) => ({
   todos: [],
   setToDos: (data) => set({ todos: data }),
   load: [],
   setLoad: () => set({ load: false }),
+  success: [],
+  setSuccess: () => set({ success: false }),
 }));
 
-const { setToDos, setLoad } = useBearStore.getState();
+const { setToDos, setLoad, setSuccess } = useBearStore.getState();
 
 export const getAllTodo = async () => {
   try {
     const response = await axios.get(base_url);
     if (response?.data?.success) {
       const alltask = response?.data?.data;
-      setToDos(alltask);
-      console.log("All Task: ", alltask);
       setLoad(true);
+      setToDos(alltask);
+      //console.log("All Task: ", alltask);
       return alltask;
+    } else {
+      warningToast(
+        "The Data is not getting from the Server ",
+        response?.data?.message
+      );
     }
   } catch (error) {
     console.error(error);
@@ -33,19 +41,26 @@ export const getAllTodo = async () => {
 };
 
 //delete todo list
-export const handleDeleteTodo = (id) => {
-  axios
-    .post(delete_todo, {
+export const handleDeleteTodo = async (id) => {
+  try {
+    const res = await axios.post(delete_todo, {
       id: id,
-    })
-    .then((res) => {
-      console.log(res);
-      setToDos(res?.data?.data);
     });
+    if (res) {
+      setToDos(res?.data?.data);
+      return true;
+    } else {
+      console.log("Not Deleted");
+      return false;
+    }
+  } catch (error) {
+    console.log(error);
+    return false;
+  }
 };
 
 //add a new task
-export const handleAddNewTodo = (
+export const handleAddNewTodo = async (
   title,
   note,
   startDate,
@@ -53,27 +68,33 @@ export const handleAddNewTodo = (
   startTime,
   endTime
 ) => {
-  axios
-    .post(add_todo, {
+  try {
+    const response = await axios.post(add_todo, {
       title: title,
       note: note,
       start_date: startDate,
       end_date: endDate,
       start_time: startTime,
       end_time: endTime,
-    })
-    .then(function (response) {
-      if (response?.data.success) {
-        setToDos(response?.data?.data);
-      }
-    })
-    .catch(function (error) {
-      console.log(error);
     });
+    if (response?.data?.success) {
+      setToDos(response?.data?.data);
+      let success = response?.data;
+      console.log("success");
+      return true;
+    } else {
+      console.log("!success");
+      return false;
+    }
+  } catch (error) {
+    console.log(error);
+    console.log("error");
+    return false;
+  }
 };
 
 // update todo
-export const updateTask = (
+export const updateTask = async (
   id,
   title,
   note,
@@ -82,8 +103,8 @@ export const updateTask = (
   startTime,
   endTime
 ) => {
-  axios
-    .post(update_todo, {
+  try {
+    const res = await axios.post(update_todo, {
       id: id,
       title: title,
       note: note,
@@ -91,12 +112,18 @@ export const updateTask = (
       end_date: endDate,
       start_time: startTime,
       end_time: endTime,
-    })
-    .then((res) => {
-      if (res?.data.success) {
-        setToDos(res?.data?.data);
-      }
     });
+    if (res?.data.success) {
+      setToDos(res?.data?.data);
+    } else {
+      console.log("!success");
+      //return false;
+    }
+  } catch (error) {
+    console.log(error);
+    console.log("error");
+    return false;
+  }
 };
 
 // complete todo task

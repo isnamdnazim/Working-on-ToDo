@@ -12,6 +12,7 @@ import "react-toastify/dist/ReactToastify.css";
 import {
   todoDeletedtoast,
   todoUpdatetoast,
+  errorToast,
 } from "../../Services/toastNotification/toast";
 import { disablePastDate } from "../../app/const";
 import { useEffect } from "react";
@@ -29,17 +30,6 @@ const EditandDelete = (props) => {
   const [hasEndDate, setHasEndDate] = useState();
   const [hasStartTime, setHasStartTime] = useState();
   const [hasEndTime, setHasEndTime] = useState();
-  //console.log(hasTitle);
-  //console.log(taskId);
-
-  // const completed = todos?.filter((item) => {
-  //   return item?.is_completed !== 1;
-  // });
-  // console.log("Completed: ", completed);
-
-  // useEffect(()=>{
-  //   const alltodo =  getAllTodo();
-  // },[]);
 
   const handleUpdateTask = (id) => {
     let hasTask = todos.find((item) => item.id === id);
@@ -76,8 +66,8 @@ const EditandDelete = (props) => {
   const handleCancel = () => {
     setIsModalOpen(false);
   };
-  const showDeleteConfirm = () => {
-    confirm({
+  const showDeleteConfirm = async () => {
+    await confirm({
       title: "Are you sure delete this task?",
       icon: <ExclamationCircleOutlined />,
       content: "This Task Will Deleted Completely",
@@ -85,9 +75,14 @@ const EditandDelete = (props) => {
       okType: "danger",
       cancelText: "No",
       onOk() {
+        let res = handleDeleteTodo(id);
+        if (res) {
+          todoDeletedtoast();
+        } else {
+          errorToast("The task not deleted");
+          return false;
+        }
         //console.log("OK");
-        handleDeleteTodo(id);
-        todoDeletedtoast();
       },
       onCancel() {
         //console.log("Cancel");

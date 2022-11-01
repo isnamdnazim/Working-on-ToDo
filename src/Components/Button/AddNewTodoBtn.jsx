@@ -1,15 +1,17 @@
 import { Modal } from "antd";
 import React, { useState } from "react";
-import { handleAddNewTodo } from "../../Services/Api/TodoApi";
+import useBearStore, { handleAddNewTodo } from "../../Services/Api/TodoApi";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import {
   errorToast,
   todoAddedtoast,
+  warningToast,
 } from "../../Services/toastNotification/toast";
 import { disablePastDate } from "../../app/const";
 
 const AddNewTodoBtn = () => {
+  const { success } = useBearStore();
   //Properties for Adding in a single Task
   const [title, setTitle] = useState();
   const [note, setNote] = useState();
@@ -28,35 +30,27 @@ const AddNewTodoBtn = () => {
     form.reset();
   };
 
-  // const checkDate = async () => {
-  //   var start = new Date(startDate + " " + startTime);
-  //   var end = new Date(endDate + " " + endTime);
-
-  //   if (end > start) {
-  //     alert("end bigger");
-  //   } else {
-  //     alert("end less");
-  //   }
-  // };
-
-  //disable the past time
-  // const disablePastTime = () => {
-  //   let hour = new Date(startTime).getTime();
-  //   if (endTime === startTime) {
-  //     console.log("End time shoud not be same as start time");
-  //   }
-  // };
-  // console.log(startDate);
-  // console.log(startTime);
-  // disablePastTime();
-  //review
-  const handleOk = (e) => {
+  const handleOk = async (e) => {
     e.preventDefault();
-    handleAddNewTodo(title, note, startDate, endDate, startTime, endTime);
-    setIsModalOpen(false);
-    resetField();
-    todoAddedtoast();
+    console.log("1");
+    let value = await handleAddNewTodo(
+      title,
+      note,
+      startDate,
+      endDate,
+      startTime,
+      endTime
+    );
+    if (value) {
+      resetField();
+      todoAddedtoast();
+      return setIsModalOpen(false);
+    } else {
+      warningToast("The data is not Posted");
+      return false;
+    }
   };
+
   const handleCancel = () => {
     setIsModalOpen(false);
   };
@@ -139,20 +133,7 @@ const AddNewTodoBtn = () => {
                 <input
                   required
                   onChange={(e) => {
-                    // let date = new Date(e.target.value);
-                    // const day = date.getDate();
-                    // const month = date.getMonth();
-                    // const year = date.getFullYear();
-                    // const fulldate = day + "-" + month + "-" + year;
-                    // console.log(fulldate);
-                    // setStartDate(fulldate);
                     setStartDate(e.target.value);
-
-                    //setStartDate(e.target.value);
-
-                    // let edate = new Date(e.target.value);
-                    // console.log(edate.toLocaleDateString());
-                    // setStartDate(edate.toLocaleDateString());
                   }}
                   className="shadow appearance-none border rounded w-full mb-3 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                   type="date"
@@ -177,8 +158,6 @@ const AddNewTodoBtn = () => {
                   value={endDate}
                   onChange={(e) => {
                     dateChange(e.target.value);
-
-                    //setEndDate(e.target.value);
                   }}
                   className="shadow appearance-none border rounded w-full mb-3 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                   type="date"
@@ -192,11 +171,6 @@ const AddNewTodoBtn = () => {
                   value={endTime}
                   onChange={(e) => {
                     timeChange(e.target.value);
-                    // setEndTime(e.target.value);
-                    // let etime = new Date(e.target.value);
-                    // let time = etime.getTime();
-                    // console.log(time);
-                    // setEndTime(time);
                   }}
                   className="shadow appearance-none border rounded w-full mb-3 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                   type="time"
