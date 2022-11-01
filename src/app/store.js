@@ -20,6 +20,6 @@ export const getAllTodo = async () => {
     console.error(error);
   }
 };
-getAllTodo();
+//getAllTodo();
 
 export default useBearStore;

@@ -52,7 +52,7 @@ const IndividualTodo = () => {
         time: end,
       };
     });
-    console.log("Check Time", checkTime);
+    //console.log("Check Time", checkTime);
 
     var test = [];
     //console.log("test", test);
