@@ -1,4 +1,5 @@
 import axios from "axios";
+import { Dna } from "react-loader-spinner";
 import create from "zustand";
 import {
   add_todo,
@@ -80,15 +81,15 @@ export const handleAddNewTodo = async (
     if (response?.data?.success) {
       setToDos(response?.data?.data);
       let success = response?.data;
-      console.log("success");
+      //console.log("success");
       return true;
     } else {
-      console.log("!success");
+      //console.log("!success");
       return false;
     }
   } catch (error) {
     console.log(error);
-    console.log("error");
+    //console.log("error");
     return false;
   }
 };
