@@ -15,11 +15,9 @@ const useBearStore = create((set, get) => ({
   setToDos: (data) => set({ todos: data }),
   load: [],
   setLoad: () => set({ load: false }),
-  success: [],
-  setSuccess: () => set({ success: false }),
 }));
 
-const { setToDos, setLoad, setSuccess } = useBearStore.getState();
+const { setToDos, setLoad } = useBearStore.getState();
 
 export const getAllTodo = async () => {
   try {
