@@ -9,6 +9,7 @@ import {
   warningToast,
 } from "../../Services/toastNotification/toast";
 import { disablePastDate } from "../../app/const";
+import CommonInput from "../Input/CommonInput";
 
 const AddNewTodoBtn = () => {
   const { success } = useBearStore();
@@ -111,13 +112,20 @@ const AddNewTodoBtn = () => {
           <hr className="mb-8"></hr>
           <form id="form" onSubmit={handleOk}>
             <label className="required-field">Task Title</label>
-            <input
+            <CommonInput
+              required
+              placeholder="Write Task Title *"
+              onChange={(e) => setTitle(e.target.value)}
+            >
+              {" "}
+            </CommonInput>
+            {/* <input
               required
               onChange={(e) => setTitle(e.target.value)}
               className="shadow appearance-none border rounded w-full mb-3 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               type="text"
               placeholder="Write Task Title *"
-            />
+            /> */}
 
             <label className="required-field">Task Note</label>
             <textarea
@@ -142,6 +150,7 @@ const AddNewTodoBtn = () => {
               </div>
               <div className="col-span-1">
                 <label className="required-field">Start Time</label>
+
                 <input
                   required
                   onChange={(e) => setStartTime(e.target.value)}
